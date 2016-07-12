@@ -1,0 +1,74 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+#container  {
+    background-color: #f8f8f8;
+    width: 1000px;
+    margin: auto;
+}
+h1 {
+    padding-top: 10px;
+    text-align: center;
+    color: #150275;
+    font-size: 28px;
+}
+h3  {
+    width: 840px;
+    margin: auto;
+    margin-top: 20px;
+    color: #150275;
+}
+pre  {
+    font-family: 'Droid Sans Mono', sans-serif;
+}
+.code  {
+    width: 800px;
+    margin: auto;
+    margin-top: 20px;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid rgba(255, 200, 64, 0.55);
+    border-radius: 5px;
+    position: relative;
+    font-size: 13px;
+}
+.border  {
+    position: absolute;
+    left: 550px;
+    top: 0;
+    width: 0;
+    height: 100%;
+    border-right: 1px solid rgba(255, 200, 64, 0.55);
+}
+form  {
+    position: absolute;
+    left: 600px;
+}
+#form1  {
+    top: 12px;
+}
+#form2  {
+    top: 32px;
+}
+#form3  {
+    top: 22px;
+}
+#form4  {
+    top: 38px;
+}
+input  {
+    text-align: center;
+    margin: 4px 0;
+    width: 90px;
+}
+input[type="submit"]  {
+    width: 191px;
+}
+input[name="string"]  {
+    width: 187px;
+}
+.lastP {
+    margin-top: 4px;
+}

@@ -1,0 +1,101 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Дмитрий Фивег</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Droid+Sans+Mono|Open+Sans:400,700,600&subset=latin,cyrillic,cyrillic-ext'
+          rel='stylesheet' type='text/css'>
+    <script src="script.js"></script>
+</head>
+<body>
+<div id="container">
+    <h1>Домашнее задание к занятию №4</h1>
+    <h3>Функция min()</h3>
+    <div class="code">
+<pre>
+
+function min(firstValue, secondValue) {
+    return (secondValue < firstValue) ? secondValue : firstValue;
+}
+
+</pre>
+        <div class="border"></div>
+        <form id="form1" onsubmit="getMin();return false">
+            <p>Введите значения:</p>
+            <input type="text" name="firstValue" placeholder="Первое">
+            <input type="text" name="secondValue" placeholder="Второе"> <br>
+            <input type="submit" value="Выбрать минимальное">
+            <p class="lastP">Минимальное значение: <span id="minValue"></span></p>
+        </form>
+    </div>
+    <br>
+    <h3>Функция countBs()</h3>
+    <div class="code">
+
+<pre>function countBs(string) {
+    var count = 0;
+    for (var i = 0; i < string.length; i++)  {
+        (string.charAt(i) == "B") && count++;
+    }
+    return count;
+}</pre>
+
+        <div class="border"></div>
+        <form id="form2" onsubmit="getStringAndCountB();return false">
+            <p>Введите строку:</p>
+            <input type="text" name="string">
+            <input type="submit" value="Посчитать &laquo;B&raquo;">
+            <p class="lastP">Нашлось символов &laquo;B&raquo;: <span id="howMuchB"></span></p>
+        </form>
+    </div>
+    <br>
+    <h3>Функция countChar()</h3>
+    <div class="code">
+
+<pre>
+
+function countChar(string, char)  {
+    var count = 0;
+    for (var i = 0; i < string.length; i++) {
+        (string.charAt(i) == char) && count++;
+    }
+    return count;
+}
+
+</pre>
+
+        <div class="border"></div>
+        <form id="form3" onsubmit="getInfoAndCountChars();return false">
+            <p>Введите строку:</p>
+            <input type="text" name="string">
+            <p>Что искать:</p>
+            <input type="text" name="char" maxlength="1">
+            <br>
+            <input type="submit" value="Посчитать символы">
+            <p class="lastP">Нашлось символов<span id="howMuchChars">:</span></p>
+        </form>
+    </div>
+    <br>
+    <h3>Рекурсивная функция isEven()</h3>
+    <div class="code">
+
+<pre>function isEven(number)  {
+    (number < 0) && (number = Math.abs(number));
+    if (number == 1)
+        return false;
+    if (number == 0)
+        return true;
+    return isEven(number - 2);
+}</pre>
+
+        <div class="border"></div>
+        <form id="form4" onsubmit="getNumberAndDefineParity();return false">
+            <p>Введите число:</p>
+            <input type="text" name="number" pattern="\-?\d+"> <br>
+            <input type="submit" value="Определить чётность">
+            <p class="lastP"><span id="even"></span></p>
+        </form>
+    </div>
+    <br><br>
+</div>
