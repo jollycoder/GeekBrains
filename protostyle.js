@@ -1,15 +1,21 @@
-function Table() {}
+function Table() {
+    this.rowsNumber = 1;
+    this.cellsNumber = 1;
+}
 
 Table.prototype.size = function (rowsNumber, cellsNumber) {
     this.rowsNumber = rowsNumber || 1;
     this.cellsNumber = cellsNumber || 1;
 };
 
-Table.prototype.createTable = function () {
+Table.prototype.createTable = function (func) {  // в параметре функция func для работы с создаваемыми ячейками
     var table = document.createElement("table");
-    for (var i = 1; i <= this.rowsNumber; i++) {
+    for (var r = 0; r <= this.rowsNumber - 1; r++) {
         var row = table.insertRow();
-        for (var n = 1; n <= this.cellsNumber; n++)  row.insertCell();
+        for (var c = 0; c <= this.cellsNumber - 1; c++) {
+            var cell = row.insertCell();
+            func(r, c, cell);
+        }
     }
     return table;
 };
@@ -26,27 +32,23 @@ ChessBoard.prototype.constructor = ChessBoard;
 
 ChessBoard.prototype.initBoard = function (lightColor, darkColor, cellSize) {  // установка цветов и размера клеток
     this.size(this._rowsNumber, this._cellsNumber);    // инициализация доски
-    this.table = this.createTable();
-    this.table.style.borderSpacing = "0";
-
-    document.getElementById(this._id).appendChild(this.table);
     this.lightColor = lightColor || 'white';
     this.darkColor = darkColor || 'black';
     this.cellSize = cellSize || '30px';
 
-    for (var r = 0; r <= this._rowsNumber - 1; r++)  {
-        var row = this.table.rows[r];
-        for (var c = 0; c <= this._cellsNumber - 1; c++)  {
-            var cell = row.cells[c];
-            if (r % 2 == 0)
-                var color = (c % 2 == 0 ? this.lightColor : this.darkColor);
-            else
-                color = (c % 2 == 0 ? this.darkColor : this.lightColor);
-            cell.style.backgroundColor = color;
-            cell.style.width = cell.style.height = this.cellSize;
-            cell.setAttribute( 'data-id', this._letters[c] + (8 - r).toString() );  // устанавливаем каждой ячейке атрибут data-id с координатой вида A1
-        }
-    }
+    var self = this;
+    var f = function (r, c, cell) {
+        if (r % 2 == 0)
+            var color = (c % 2 == 0 ? self.lightColor : self.darkColor);
+        else
+            color = (c % 2 == 0 ? self.darkColor : self.lightColor);
+        cell.style.backgroundColor = color;
+        cell.style.width = cell.style.height = self.cellSize;
+        cell.setAttribute( 'data-id', self._letters[c] + (8 - r).toString() );  // устанавливаем каждой ячейке атрибут data-id с координатой вида A1
+    };
+    this.table = this.createTable(f);
+    this.table.style.borderSpacing = "0";
+    document.getElementById(this._id).appendChild(this.table);
 };
 
 ChessBoard.prototype.setActiveCell = function (cellNode)  {
@@ -56,20 +58,19 @@ ChessBoard.prototype.setActiveCell = function (cellNode)  {
     alert("Активная клетка: " + this.activeCell.name);
 };
 
-ChessBoard.prototype.setOnEvents = function () {                   // подписываемся на события
+ChessBoard.prototype.setOnEvents = function (handler) {                   // подписываемся на события
     var self = this;
     ['click', 'dblclick', 'contextmenu', 'mouseover', 'mousedown', 'mouseup', 'mousemove'].forEach(function (item) {
-        self.table.addEventListener(item, eventHandler);
+        self.table.addEventListener(item, handler);
     });
-    function eventHandler(event) {
-        switch(event.type)  {
-            case 'click':
-                self.setActiveCell(event.target);
-            // и т. д.
-        }
-    }
 };
 
 myBoard = new ChessBoard("chessboardPlace");         // создаём доску в элементе с id "chessboardPlace"
 myBoard.initBoard("#ffce9e", "#d18b47", "35px");     // устанавливаем цвета, размеры клеток и координаты
-myBoard.setOnEvents();                               // подписываемся на события
+myBoard.setOnEvents(function eventHandler(event) {   // подписываемся на события
+    switch(event.type)  {
+        case 'click':
+            myBoard.setActiveCell(event.target);
+        // и т. д.
+    }
+});
