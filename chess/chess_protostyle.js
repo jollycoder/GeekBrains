@@ -132,8 +132,8 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
         pieceDiv.innerHTML = '&#98' + (12 + pieces.indexOf(piece) + (color == 'white' ? 0 : 6)).toString() + ';';
         var s = pieceDiv.style;
         s.textAlign = 'center';
-        s.fontSize = (+self.cellSize.slice(0, -2) * 75 / 100).toString() + 'px';
-        s.width = s.height = self.cellSize;
+        s.fontSize = (+self.cellSize.slice(0, -2) * 90 / 100).toString() + 'px';
+        s.width = s.height = s.lineHeight = self.cellSize;
         s.webkitUserSelect = 'none';
         s.mozUserSelect = 'none';
         s.msUserSelect = 'none';
