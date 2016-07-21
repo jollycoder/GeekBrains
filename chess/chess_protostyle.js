@@ -134,9 +134,7 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
         s.textAlign = 'center';
         s.fontSize = (+self.cellSize.slice(0, -2) * 90 / 100).toString() + 'px';
         s.width = s.height = s.lineHeight = self.cellSize;
-        s.webkitUserSelect = 'none';
-        s.mozUserSelect = 'none';
-        s.msUserSelect = 'none';
+        s.webkitUserSelect = s.mozUserSelect = s.msUserSelect = 'none';
         s.cursor = 'default';
         ci[coord].node.appendChild(pieceDiv);
         ci[coord].content = 1;   // временно
