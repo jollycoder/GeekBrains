@@ -41,7 +41,7 @@ ChessBoard.prototype.initBoard = function (lightColor, darkColor, cellSize) {  /
 
     var self = this;
     function putBoardInfo(r, c, cell) {
-        var coord = self._letters[c] + (8 - r).toString();
+        var coord = self._letters[c] + (8 - r);
         cell.setAttribute('data-id', coord);  // устанавливаем каждой ячейке атрибут data-id с координатой вида A1
         self._cellsInfo[coord] = {node: cell};
         if (r % 2 == 0)
@@ -129,10 +129,10 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
     }
     function setPiece(color, piece, coord) {
         var pieceDiv = document.createElement('div');
-        pieceDiv.innerHTML = '&#98' + (12 + pieces.indexOf(piece) + (color == 'white' ? 0 : 6)).toString() + ';';
+        pieceDiv.innerHTML = '&#98' + (12 + pieces.indexOf(piece) + (color == 'white' ? 0 : 6)) + ';';
         var s = pieceDiv.style;
         s.textAlign = 'center';
-        s.fontSize = (+self.cellSize.slice(0, -2) * 90 / 100).toString() + 'px';
+        s.fontSize = +self.cellSize.slice(0, -2) * 90 / 100 + 'px';
         s.width = s.height = s.lineHeight = self.cellSize;
         s.webkitUserSelect = s.mozUserSelect = s.msUserSelect = 'none';
         s.cursor = 'default';
