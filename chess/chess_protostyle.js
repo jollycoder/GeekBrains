@@ -82,10 +82,10 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
         if (xhr.status != 200) {
             return alert(xhr.status + ': ' + xhr.statusText);
         }
-        piecesData = JSON.parse(xhr.responseText);
+        var piecesData = JSON.parse(xhr.responseText);
     }
     else  {
-        var piecesData = {
+        piecesData = {
             white: {
                 K:  'E1',
                 Q:  'D1',
