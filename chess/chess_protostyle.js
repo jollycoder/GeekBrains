@@ -47,7 +47,7 @@ ChessBoard.prototype.initBoard = function (lightColor, darkColor, cellSize) {  /
         cell.style.backgroundColor = (r % 2) ^ (c % 2) ? self.darkColor : self.lightColor;
         cell.style.width = cell.style.height = self.cellSize;
         cell.style.padding = '0';
-        self._cellsInfo[coord].color = ((r % 2) ^ (c % 2) ?  'black' : 'white');
+        self._cellsInfo[coord].color = ((r % 2) ^ (c % 2) ? 'black' : 'white');
     }
     this.table = this.createTable(putBoardInfo);
     this.table.style.borderSpacing = '0';
