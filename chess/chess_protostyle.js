@@ -157,11 +157,11 @@ ChessBoard.prototype.validateData = function (obj) {
             error = true;
         }
         var pieces = Object.keys(obj[color]);
-        pieces.forEach(function (pos) {
+        pieces.some(function (pos) {
             if ((typeof obj[color][pos]) == 'string')  {
                 if (coords.indexOf(obj[color][pos]) != -1)  {
                     alert('Ошибка в расстановке позиции, повторяются координаты!');
-                    error = true;
+                    return error = true;
                 }
                 else  {
                     coords.push(obj[color][pos]);
@@ -170,30 +170,31 @@ ChessBoard.prototype.validateData = function (obj) {
             else  {
                 if (pos == 'K')  {
                     alert('Ошибка в расстановке позиции, два короля одного цвета!');
-                    error = true;
+                    return error = true;
                 }
                 if (pos == 'p' && obj[color][pos].length > 8)  {
                     alert('Ошибка в расстановке позиции, слишком много пешек одного цвета!');
-                    error = true;
+                    return error = true;
                 }
-                obj[color][pos].forEach(function (coord) {
+                obj[color][pos].some(function (coord) {
                     if (pos == 'p' && color == 'white' && coord.slice(-1) == '1')  {
                         alert('Ошибка в расстановке позиции, белая пешка на ' + coord + '!');
-                        error = true;
+                        return error = true;
                     }
                     if (pos == 'p' && color == 'black' && coord.slice(-1) == '8')  {
                         alert('Ошибка в расстановке позиции, чёрная пешка на ' + coord + '!');
-                        error = true;
+                        return error = true;
                     }
                     if (coords.indexOf(coord) != -1)  {
                         alert('Ошибка в расстановке позиции, повторяются координаты!');
-                        error = true;
+                        return error = true;
                     }
                     else  {
                         coords.push(coord);
                     }
                 });
             }
+            return error;
         });
     });
     return !error;
