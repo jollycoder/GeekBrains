@@ -15,11 +15,9 @@ function readJson(jsonFile) {
     if (xhr.status != 200) {
         return alert(xhr.status + ': ' + xhr.statusText);
     }
-    var array = [];
-    JSON.parse(xhr.responseText).forEach(function (item) {
-        array.push(item.name);
+    return JSON.parse(xhr.responseText).map(function (item) {
+        return item.name;
     });
-    return array;
 }
 
 createMarkedList('phoneslist', readJson('phones.json'));
