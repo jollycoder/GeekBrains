@@ -44,11 +44,10 @@ ChessBoard.prototype.initBoard = function (lightColor, darkColor, cellSize) {  /
         var coord = self._letters[c] + (8 - r);
         cell.setAttribute('data-id', coord);  // устанавливаем каждой ячейке атрибут data-id с координатой вида A1
         self._cellsInfo[coord] = {node: cell};
-        var color = (r % 2) ^ (c % 2) ? self.darkColor : self.lightColor;
-        cell.style.backgroundColor = color;
+        cell.style.backgroundColor = (r % 2) ^ (c % 2) ? self.darkColor : self.lightColor;
         cell.style.width = cell.style.height = self.cellSize;
         cell.style.padding = '0';
-        self._cellsInfo[coord].color = (color == self.darkColor ? 'black' : 'white');
+        self._cellsInfo[coord].color = ((r % 2) ^ (c % 2) ?  'black' : 'white');
     }
     this.table = this.createTable(putBoardInfo);
     this.table.style.borderSpacing = '0';
