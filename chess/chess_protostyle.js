@@ -184,7 +184,6 @@ ChessBoard.prototype.validateData = function (obj) {
                     if (pos == 'p' && color == 'black' && coord.slice(-1) == '8')  {
                         alert('Ошибка в расстановке позиции, чёрная пешка на ' + coord + '!');
                         error = true;
-                        return;
                     }
                     if (coords.indexOf(coord) != -1)  {
                         alert('Ошибка в расстановке позиции, повторяются координаты!');
