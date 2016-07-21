@@ -75,7 +75,16 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
     var self = this;
     var pieces = ['K', 'Q', 'R', 'B', 'N', 'p'];
     var ci = this._cellsInfo;
-    if (!jsonFile)  {
+    if (jsonFile)  {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', jsonFile, false);
+        xhr.send();
+        if (xhr.status != 200) {
+            return alert(xhr.status + ': ' + xhr.statusText);
+        }
+        piecesData = JSON.parse(xhr.responseText);
+    }
+    else  {
         var piecesData = {
             white: {
                 K:  'E1',
@@ -94,15 +103,6 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
                 p: ['A7', 'B7', 'C7', 'D7', 'E7', 'F7', 'G7', 'H7']
             }
         };
-    }
-    else  {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', jsonFile, false);
-        xhr.send();
-        if (xhr.status != 200) {
-            return alert(xhr.status + ': ' + xhr.statusText);
-        }
-        piecesData = JSON.parse(xhr.responseText);
     }
     if (!this.validateData(piecesData))   // валидация данных
         return;
@@ -151,20 +151,20 @@ ChessBoard.prototype.validateData = function (obj) {
         return false;
     }
     var coords = [];   // проверка на совпадение координат
-    keys.forEach(function (color) {
+    keys.some(function (color) {
         if((typeof obj[color]) != 'object')  {
             alert('Неверный формат данных!');
-            error = true;
+            return error = true;
         }
         var pieces = Object.keys(obj[color]);
         pieces.some(function (pos) {
             if ((typeof obj[color][pos]) == 'string')  {
-                if (coords.indexOf(obj[color][pos]) != -1)  {
-                    alert('Ошибка в расстановке позиции, повторяются координаты!');
-                    return error = true;
+                if (coords.indexOf(obj[color][pos]) == -1)  {
+                    coords.push(obj[color][pos]);
                 }
                 else  {
-                    coords.push(obj[color][pos]);
+                    alert('Ошибка в расстановке позиции, повторяются координаты!');
+                    return error = true;
                 }
             }
             else  {
@@ -185,12 +185,12 @@ ChessBoard.prototype.validateData = function (obj) {
                         alert('Ошибка в расстановке позиции, чёрная пешка на ' + coord + '!');
                         return error = true;
                     }
-                    if (coords.indexOf(coord) != -1)  {
-                        alert('Ошибка в расстановке позиции, повторяются координаты!');
-                        return error = true;
+                    if (coords.indexOf(coord) == -1)  {
+                        coords.push(coord);
                     }
                     else  {
-                        coords.push(coord);
+                        alert('Ошибка в расстановке позиции, повторяются координаты!');
+                        return error = true;
                     }
                 });
             }
