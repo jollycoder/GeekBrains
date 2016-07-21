@@ -150,17 +150,18 @@ ChessBoard.prototype.validateData = function (obj) {
         alert('Неверный формат данных!');
         return false;
     }
-    var coords = [];   // проверка на совпадение координат
+    var testCoord = [];   // проверка на совпадение координат
     keys.some(function (color) {
         if((typeof obj[color]) != 'object')  {
             alert('Неверный формат данных!');
             return error = true;
         }
         var pieces = Object.keys(obj[color]);
-        pieces.some(function (pos) {
-            if ((typeof obj[color][pos]) == 'string')  {
-                if (coords.indexOf(obj[color][pos]) == -1)  {
-                    coords.push(obj[color][pos]);
+        pieces.some(function (piece) {
+            var pos = obj[color][piece];
+            if ((typeof pos) == 'string')  {
+                if (testCoord.indexOf(pos) == -1)  {
+                    testCoord.push(pos);
                 }
                 else  {
                     alert('Ошибка в расстановке позиции, повторяются координаты!');
@@ -168,25 +169,25 @@ ChessBoard.prototype.validateData = function (obj) {
                 }
             }
             else  {
-                if (pos == 'K')  {
+                if (piece == 'K')  {
                     alert('Ошибка в расстановке позиции, два короля одного цвета!');
                     return error = true;
                 }
-                if (pos == 'p' && obj[color][pos].length > 8)  {
+                if (piece == 'p' && pos.length > 8)  {
                     alert('Ошибка в расстановке позиции, слишком много пешек одного цвета!');
                     return error = true;
                 }
-                obj[color][pos].some(function (coord) {
-                    if (pos == 'p' && color == 'white' && coord.slice(-1) == '1')  {
+                pos.some(function (coord) {
+                    if (piece == 'p' && color == 'white' && coord.slice(-1) == '1')  {
                         alert('Ошибка в расстановке позиции, белая пешка на ' + coord + '!');
                         return error = true;
                     }
-                    if (pos == 'p' && color == 'black' && coord.slice(-1) == '8')  {
+                    if (piece == 'p' && color == 'black' && coord.slice(-1) == '8')  {
                         alert('Ошибка в расстановке позиции, чёрная пешка на ' + coord + '!');
                         return error = true;
                     }
-                    if (coords.indexOf(coord) == -1)  {
-                        coords.push(coord);
+                    if (testCoord.indexOf(coord) == -1)  {
+                        testCoord.push(coord);
                     }
                     else  {
                         alert('Ошибка в расстановке позиции, повторяются координаты!');
