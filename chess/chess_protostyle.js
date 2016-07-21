@@ -145,7 +145,7 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
 
 ChessBoard.prototype.validateData = function (obj) {
     var keys = Object.keys(obj);
-    var error = false
+    var error = false;
     if (keys.indexOf('white') == -1 || keys.indexOf('black') == -1 || keys.length != 2)  {
         alert('Неверный формат данных!');
         return false;
