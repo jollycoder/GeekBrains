@@ -21,8 +21,8 @@ Table.prototype.createTable = function (func) {  // в параметре фун
     return table;
 };
 
-function ChessBoard(id)  {
-    this._id = id;
+function ChessBoard(parentId)  {
+    this._parentId = parentId;
     this._rowsNumber = 8;               // защищённые свойства, постоянные для шахматной доски
     this._cellsNumber = 8;
     this._letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
@@ -44,10 +44,7 @@ ChessBoard.prototype.initBoard = function (lightColor, darkColor, cellSize) {  /
         var coord = self._letters[c] + (8 - r);
         cell.setAttribute('data-id', coord);  // устанавливаем каждой ячейке атрибут data-id с координатой вида A1
         self._cellsInfo[coord] = {node: cell};
-        if (r % 2)
-            var color = (c % 2 ? self.lightColor : self.darkColor);
-        else
-            color = (c % 2 ? self.darkColor : self.lightColor);
+        var color = (r % 2) ^ (c % 2) ? self.darkColor : self.lightColor;
         cell.style.backgroundColor = color;
         cell.style.width = cell.style.height = self.cellSize;
         cell.style.padding = '0';
@@ -55,7 +52,7 @@ ChessBoard.prototype.initBoard = function (lightColor, darkColor, cellSize) {  /
     }
     this.table = this.createTable(putBoardInfo);
     this.table.style.borderSpacing = '0';
-    document.getElementById(this._id).appendChild(this.table);
+    document.getElementById(this._parentId).appendChild(this.table);
 
     ['click', 'dblclick', 'contextmenu', 'mouseover', 'mousedown', 'mouseup', 'mousemove'].forEach(function (event) {  // подписываемся на события
         self.table.addEventListener(event, eventHandler);
