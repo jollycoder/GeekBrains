@@ -13,7 +13,7 @@ Table.prototype.createTable = function (func) {  // в параметре фун
     for (var r = 0; r <= this.rowsNumber - 1; r++) {
         var row = table.insertRow();
         for (var c = 0; c <= this.cellsNumber - 1; c++) {
-            var cell = row.insertCell();
+            var cell = row.insertCell(c);
             if (typeof func === 'function')
                 func(r, c, cell);
         }
@@ -57,8 +57,8 @@ ChessBoard.prototype.initBoard = function (lightColor, darkColor, cellSize) {  /
     this.table.style.borderSpacing = '0';
     document.getElementById(this._id).appendChild(this.table);
 
-    ['click', 'dblclick', 'contextmenu', 'mouseover', 'mousedown', 'mouseup', 'mousemove'].forEach(function (item) {  // подписываемся на события
-        self.table.addEventListener(item, eventHandler);
+    ['click', 'dblclick', 'contextmenu', 'mouseover', 'mousedown', 'mouseup', 'mousemove'].forEach(function (event) {  // подписываемся на события
+        self.table.addEventListener(event, eventHandler);
     });
     function eventHandler(event) {
         switch (event.type) {
