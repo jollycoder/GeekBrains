@@ -1,0 +1,12 @@
+form  {
+    float: left;
+    text-align: right;
+}
+label  {
+    display: block;
+    margin-bottom: 5px;
+}
+input  {
+    margin-left: 5px;
+    text-align: center;
+}
