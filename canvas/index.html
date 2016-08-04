@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas</title>
+    <script src="canvas.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="300" height="300" style="border: 1px solid black"></canvas>
+    <script>
+        var canvas = new Canvas({elem: document.getElementById('canvas')});
+
+        canvas.setStrokeStyle('#f00');
+        canvas.setFillStyle('#ff0');
+        canvas.setLineWidth(4);
+        canvas.drawArc({x: 150, y: 150}, 100, {start: 0, end: 2 * Math.PI}, true, 'stroke');
+        canvas.drawArc({x: 150, y: 150}, 70, {start: Math.PI, end: 2 * Math.PI}, true, 'stroke');
+        canvas.drawArc({x: 110, y: 110},  15, {start: 0, end: 2 * Math.PI}, true, 'fill');
+        canvas.drawArc({x: 190, y: 110},  15, {start: 0, end: 2 * Math.PI}, true, 'fill');
+        canvas.drawLines([{x: 150, y: 120}, {x: 135, y: 180}, {x: 165, y: 180}]);
+
+        canvas.setStrokeStyle('#000');
+        var x = 0, y = 0;
+        for (var i = 0; i < 5; i++)  {
+            canvas.drawBezierCurve([{x: 80 + x, y: 85 + y}, {x: 60 + x, y: 60 + y}, {x: 120 + x, y: 40 + y}, {x: 100 + x, y: y}]);
+            x += 15;
+            y -= 5;
+        }
+        for (i = 0; i < 5; i++)  {
+            canvas.drawBezierCurve([{x: 80 + x, y: 85 + y}, {x: x, y: 60 + y}, {x: 220 + x, y: 40 + y}, {x: 100 + x, y: y}]);
+            x += 15;
+            y += 5;
+        }
+    </script>
+</body>
+</html>
