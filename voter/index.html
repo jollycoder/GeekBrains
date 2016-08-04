@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Voter</title>
+    <script src="voter.js"></script>
+</head>
+<body>
+    <div id="voter" class="voter">
+        <span class="down">—</span>
+        <span class="vote">0</span>
+        <span class="up">+</span>
+    </div>
+    <script>
+        var voter = new Voter({elem: document.getElementById('voter')});
+        voter.setVote(146);
+    </script>
+</body>
+</html>
