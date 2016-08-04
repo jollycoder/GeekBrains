@@ -1,9 +1,9 @@
 function Voter(options) {
     var elem = options.elem;
-    var vote = elem.getElementsByClassName('vote')[0];
+    var vote = elem.querySelector('.vote');
 
-    elem.getElementsByClassName('down')[0].style.cursor = 'pointer';
-    elem.getElementsByClassName('up')[0].style.cursor = 'pointer';
+    elem.querySelector('.down').style.cursor = 'pointer';
+    elem.querySelector('.up').style.cursor = 'pointer';
 
     elem.addEventListener('click', function (event) {
         var tClass = event.target.className;
