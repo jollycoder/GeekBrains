@@ -1,0 +1,12 @@
+#myForm  {
+    float: left;
+    text-align: right;
+}
+#myForm label  {
+    display: block;
+    margin-bottom: 5px;
+}
+#myForm input  {
+    margin-left: 5px;
+    text-align: center;
+}
