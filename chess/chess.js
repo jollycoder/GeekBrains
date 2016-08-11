@@ -46,7 +46,7 @@ ChessBoard.prototype.initBoard = function (lightColor, darkColor, cellSize) {  /
     this.table.style.borderSpacing = '0';
     document.getElementById(this._parentId).appendChild(this.table);
 
-    this.addEventListener('dblclick', function(event) {
+    this.addEventListener('dblclick', function (event) {
         alert('dblclick по клетке ' + self.getCoordFromNode(event.target));
     });
 };
@@ -73,8 +73,8 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.timeout = timeout;
-        xhr.ontimeout = function() {
-            alert( 'Извините, запрос превысил максимальное время' );
+        xhr.ontimeout = function () {
+            alert('Извините, запрос превысил максимальное время');
         };
         xhr.onreadystatechange = function () {
             if (xhr.readyState != 4)
@@ -82,12 +82,12 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
             if (xhr.status != 200)
                 alert(xhr.status + ': ' + xhr.statusText);
             else {
-                try  {
+                try {
                     var data = JSON.parse(xhr.responseText);
                     successFunc(data);
                 }
-                catch (e)  {
-                    alert( "Некорректный ответ " + e.message );
+                catch (e) {
+                    alert("Некорректный ответ " + e.message);
                 }
             }
         };
@@ -115,7 +115,7 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
         };
     }
 
-    function clearBoard()  {
+    function clearBoard() {
         for (var key in ci) {
             if (ci[key].content) {
                 var node = ci[key].node;
@@ -134,7 +134,7 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
                     pieceDiv.innerHTML = '&#98' + (12 + pieces.indexOf(piece) + (color == 'white' ? 0 : 6)) + ';';
                     setStyles(pieceDiv.style);
                     ci[coord].node.appendChild(pieceDiv);
-                    ci[coord].content = pieceDiv;
+                    ci[coord].content = 1;
                 });
             }
         }
@@ -162,7 +162,7 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
                 return true;
             }
             return Object.keys(obj).some(function (piece) {
-                if (!piece.match(/^[KQRBNp]$/))  {                                                       // RegExp
+                if (!piece.match(/^[KQRBNp]$/)) {                                                       // RegExp
                     alert('Неверный формат данных!');
                     return true;
                 }
@@ -175,7 +175,7 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
                     return true;
                 }
                 return obj[piece].some(function (coord) {
-                    if (!coord.match(/^[A-H][1-8]$/))  {                                                 // RegExp
+                    if (!coord.match(/^[A-H][1-8]$/)) {                                                 // RegExp
                         alert('Неверный формат данных!');
                         return true;
                     }
@@ -221,27 +221,25 @@ ChessBoard.prototype.addEventListener = function (event, handler) {
 
 ChessBoard.prototype.setDragAndDrop = function () {
     var self = this;
-    var pieceSelector = "#chessboardPlace td div";
-    $(pieceSelector).draggable();
-    $("#chessboardPlace td").droppable({drop: function (event, ui) {
-        var html = ui.draggable.html();
-        $(ui.draggable).remove();
-        var pieceDiv = document.createElement('div');
-        pieceDiv.innerHTML = html;
-        setStyles(pieceDiv.style);
-        $(this).empty().append(pieceDiv);
-        $(pieceSelector).draggable();
-        var coord = self.getCoordFromNode($(this).get(0));
-        self._cellsInfo[coord].content = pieceDiv;
-    }});
-
-    function setStyles(s) {
-        s.textAlign = 'center';
-        s.fontSize = +self.cellSize.slice(0, -2) * 90 / 100 + 'px';
-        s.width = s.height = s.lineHeight = self.cellSize;
-        s.webkitUserSelect = s.mozUserSelect = s.msUserSelect = 'none';
-        s.cursor = 'pointer';
-    }
+    $("#chessboardPlace td div").draggable({
+        helper: "clone",
+        containment: "document",
+        drag: function () {
+            $(this).css("display", "none")
+        }
+    });
+    $("#chessboardPlace td").droppable({
+        drop: function (event, ui) {
+            $(ui.draggable).css("display", "block");
+            var parent = $(ui.draggable).parent();
+            var coord = self.getCoordFromNode(parent.get(0));
+            self._cellsInfo[coord].content = '';
+            $(this).empty();
+            ui.draggable.detach().appendTo($(this));
+            coord = self.getCoordFromNode($(this).get(0));
+            self._cellsInfo[coord].content = 1;
+        }
+    });
 };
 
 myBoard = new ChessBoard('chessboardPlace');         // создаём доску в элементе с id 'chessboardPlace'
@@ -253,7 +251,7 @@ myBoard.addEventListener('click', function (event) {        // задаём фу
 myBoard.setPosition();  // без параметра — начальная позиция
 myBoard.setDragAndDrop();
 /*
-setTimeout(function () {
-    myBoard.setPosition('position.json')
-}, 2000);  // позиция из json-файла
-*/
+ setTimeout(function () {
+ myBoard.setPosition('position.json')
+ }, 2000);  // позиция из json-файла
+ */
