@@ -20,6 +20,32 @@ function ChessBoard(parentId) {
     this._parentId = parentId;
     this._letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
     this._cellsInfo = {};   // коллекция для записи информации о клетках
+
+    var self = this;
+    this._startDragCell = null;
+    this._setDraggable = function (selector) {
+        $(selector).draggable({
+            helper: "clone",
+            containment: "document",
+            start: function () {
+                $(this).css("display", "none");
+                self._startDragCell = $(this).parent().get(0);
+            },
+            stop: function () {
+                $(this).css("display", "block");
+            }
+        });
+    };
+    this._setDroppable = function (selector) {
+        $(selector).droppable({
+            drop: function (event, ui) {
+                if ($(this).get(0) == self._startDragCell)
+                    return;
+                $(this).empty();
+                ui.draggable.detach().appendTo($(this));
+            }
+        });
+    };
     Table.call(this, rowsNumber, cellsNumber);
 }
 
@@ -45,6 +71,7 @@ ChessBoard.prototype.initBoard = function (lightColor, darkColor, cellSize) {  /
 
     this.table.style.borderSpacing = '0';
     document.getElementById(this._parentId).appendChild(this.table);
+    this._setDroppable('#' + self._parentId + ' td');
 
     this.addEventListener('dblclick', function (event) {
         alert('dblclick по клетке ' + self.getCoordFromNode(event.target));
@@ -59,6 +86,7 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
 
     var setPosition = function (piecesData) {
         validateData(piecesData) && clearBoard() && setPiecesFromData(piecesData);
+        self._setDraggable('#' + self._parentId + ' td div');
     };
 
     if (jsonFile) {
@@ -116,13 +144,7 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
     }
 
     function clearBoard() {
-        for (var key in ci) {
-            if (ci[key].content) {
-                var node = ci[key].node;
-                node.removeChild(node.firstChild);
-                ci[key].content = null;
-            }
-        }
+        $("#" + self._parentId + " td").empty();
         return true;
     }
 
@@ -134,7 +156,6 @@ ChessBoard.prototype.setPosition = function (jsonFile) {
                     pieceDiv.innerHTML = '&#98' + (12 + pieces.indexOf(piece) + (color == 'white' ? 0 : 6)) + ';';
                     setStyles(pieceDiv.style);
                     ci[coord].node.appendChild(pieceDiv);
-                    ci[coord].content = 1;
                 });
             }
         }
@@ -219,29 +240,6 @@ ChessBoard.prototype.addEventListener = function (event, handler) {
     this.table.addEventListener(event, handler);
 };
 
-ChessBoard.prototype.setDragAndDrop = function () {
-    var self = this;
-    $("#chessboardPlace td div").draggable({
-        helper: "clone",
-        containment: "document",
-        drag: function () {
-            $(this).css("display", "none")
-        }
-    });
-    $("#chessboardPlace td").droppable({
-        drop: function (event, ui) {
-            $(ui.draggable).css("display", "block");
-            var parent = $(ui.draggable).parent();
-            var coord = self.getCoordFromNode(parent.get(0));
-            self._cellsInfo[coord].content = '';
-            $(this).empty();
-            ui.draggable.detach().appendTo($(this));
-            coord = self.getCoordFromNode($(this).get(0));
-            self._cellsInfo[coord].content = 1;
-        }
-    });
-};
-
 myBoard = new ChessBoard('chessboardPlace');         // создаём доску в элементе с id 'chessboardPlace'
 myBoard.initBoard('#ffce9e', '#d18b47', '50px');     // устанавливаем цвета, размеры клеток и координаты вида A1
 myBoard.addEventListener('click', function (event) {        // задаём функцию для внешней обработки событий
@@ -249,7 +247,6 @@ myBoard.addEventListener('click', function (event) {        // задаём фу
     myBoard.setActiveCell(coord);                        // устанавливаем активную клетку по координате
 });
 myBoard.setPosition();  // без параметра — начальная позиция
-myBoard.setDragAndDrop();
 /*
  setTimeout(function () {
  myBoard.setPosition('position.json')
