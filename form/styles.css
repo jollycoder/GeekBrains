@@ -10,3 +10,13 @@
     margin-left: 5px;
     text-align: center;
 }
+#progressbar  {
+    margin-bottom: 5px;
+    height: 10px;
+}
+.ui-progressbar .ui-progressbar-value  {
+    background: gold;
+}
+.ui-dialog .ui-dialog-titlebar  {
+    background: #519fe8;
+}
