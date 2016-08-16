@@ -1,0 +1,13 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        title Voter
+        script(src='js/script.js')
+    body
+        div#voter.voter
+            each val, key in { down: '—', vote: '0', up: '+'}
+                span(class=key)= val
+        script.
+            var voter = new Voter({elem: document.getElementById('voter')});
+            voter.setVote(146);
