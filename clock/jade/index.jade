@@ -1,0 +1,11 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='UTF-8')
+        title Часы
+        script(src='js/script.js')
+    body
+        div#clock
+        script.
+            var clock = new Clock({elem: document.getElementById('clock')});
+            clock.start();
